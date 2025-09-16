@@ -135,3 +135,49 @@ Envolve ferramentas e processos que permitem:
     
 
 Assim, a gerenciabilidade é essencial para manter o controle, a visibilidade e a eficiência em ambientes de nuvem, especialmente quando a infraestrutura é complexa ou distribuída.
+
+## IaaS, PaaS e SaaS
+
+são três modelos principais de serviços em nuvem que oferecem diferentes níveis de controle, flexibilidade e gerenciamento:
+
+- **IaaS (Infraestrutura como Serviço):** Disponibiliza recursos básicos de infraestrutura, como servidores, armazenamento e rede, que o usuário pode configurar e gerenciar conforme a necessidade. O provedor cuida do hardware e da virtualização, mas o cliente administra sistema operacional, aplicações e dados. Exemplo: máquinas virtuais no Azure, AWS EC2.
+    
+- **PaaS (Plataforma como Serviço):** Fornece um ambiente completo para desenvolver, testar e gerenciar aplicativos sem precisar cuidar da infraestrutura ou middleware. Ideal para desenvolvedores, que podem focar no código, enquanto o provedor mantém o ambiente. Exemplo: Azure App Service, Heroku.
+    
+- **SaaS (Software como Serviço):** Oferece aplicações prontas para uso, acessadas via navegador ou app, gerenciadas totalmente pelo provedor, incluindo atualizações e manutenção. O usuário apenas utiliza o software sem se preocupar com infraestrutura ou desenvolvimento. Exemplo: Microsoft 365, Gmail.
+    
+
+## Comparação IaaS, PaaS e SaaS
+
+|Característica|IaaS|PaaS|SaaS|
+|---|---|---|---|
+|Nível de controle|Alto (infraestrutura e software)|Médio (aplicações e dados)|Baixo (aplicações prontas)|
+|Público-alvo|Equipes de TI / Administradores|Desenvolvedores|Usuários finais|
+|Responsabilidade|Usuário gerencia sistemas, apps|Usuário desenvolve apps; provedor gerencia infraestrutura|Provedor gerencia tudo|
+|Flexibilidade|Maior personalização e controle|Foco no desenvolvimento ágil|Facilidade e rapidez de uso|
+|Exemplos|Azure VMs, AWS EC2|Azure App Service, Heroku|Microsoft 365, Google Workspace|
+
+Esses modelos ajudam empresas a escolher o nível de gerenciamento e infraestrutura que desejam delegar ao provedor, indo de infraestrutura pura (IaaS) à aplicação completa pronta para uso (SaaS).
+
+## Modelo de Responsabilidade Compartilhada
+
+O **Modelo de Responsabilidade Compartilhada** na nuvem é uma estrutura que define claramente as responsabilidades de segurança e gerenciamento entre o provedor de serviços de nuvem (CSP) e o cliente.
+
+## Como funciona:
+
+- O **provedor** é responsável pela segurança da infraestrutura física, data centers, hardware, rede e virtualização — ou seja, tudo "da nuvem".
+    
+- O **cliente** é responsável por proteger seus dados, identidade, aplicativos, sistemas operacionais, configurações e acesso — ou seja, tudo "na nuvem".
+    
+
+Essa divisão varia conforme o tipo de serviço:
+
+- **SaaS:** o provedor gerencia quase tudo, o cliente cuida do controle de acesso e dados.
+    
+- **PaaS:** o provedor gerencia a plataforma, o cliente gerencia aplicativos e dados.
+    
+- **IaaS:** o provedor gerencia a infraestrutura, o cliente gerencia sistemas operacionais, aplicativos e dados.
+    
+
+Esse modelo evita confusões, melhora a segurança e ajuda a organizar tarefas para que tanto cliente como provedor saibam suas responsabilidades, garantindo um ambiente seguro e eficiente.
+
