@@ -176,8 +176,62 @@ Essa divisão varia conforme o tipo de serviço:
     
 - **PaaS:** o provedor gerencia a plataforma, o cliente gerencia aplicativos e dados.
     
-- **IaaS:** o provedor gerencia a infraestrutura, o cliente gerencia sistemas operacionais, aplicativos e dados.
-    
+- **IaaS:** o provedor gerencia a infraestrutura, o cliente gerencia sistemas operacionais, aplicativos e dados.    
 
-Esse modelo evita confusões, melhora a segurança e ajuda a organizar tarefas para que tanto cliente como provedor saibam suas responsabilidades, garantindo um ambiente seguro e eficiente.
+### Componentes de arquitetura do Azure
 
+Esta fonte detalha a estrutura física (Regiões/Zonas) e lógica (Hierarquia) do Azure.
+
+| Conceito | Detalhes Principais | Citação |
+| :--- | :--- | :--- |
+| **Regiões** | Locais onde os recursos são criados. São pontos em azul escuro no mapa global. Existem mais de 60 regiões ativas em mais de 140 países (abrangência global). | |
+| **Regiões Anunciadas** | Estão quase prontas para se tornarem disponíveis (pontilhados no mapa). | |
+| **Escolha de Região** | Influencia o **acesso** (proximidade do usuário reduz o *delay* ou lentidão) e o **preço** (não é tabelado, devido a impostos e tipo de recurso). | |
+| **Disponibilidade de Recursos** | Nem todos os recursos estão disponíveis em todas as regiões, especialmente aqueles em *preview* (teste). | |
+| **Região vs. Data Center (DC)** | Uma região é composta por um ou mais data centers. Recomenda-se a ideia de **três data centers por região** para caracterizar uma Zona de Disponibilidade. | |
+| **Zona de Disponibilidade (ZA)** | É um data center (bloco autossustentável). Os DCs se comunicam por uma rede exclusiva de alta performance (backbone da Microsoft) e baixa latência. | |
+| **Replicação** | Para garantir alta disponibilidade, os recursos são copiados ao mesmo tempo (escrita ativa) para os três DCs de uma região. | |
+| **Falha de DC** | Se um DC ficar indisponível, os outros dois respondem, mantendo o sistema funcional (embora possa haver lentidão). Se os três DCs (região) ficarem fora, é necessário o *Disaster Recovery* (DR) para outra região. | |
+| **Residência dos Dados** | As regiões preservam a residência dos dados (conformidade como LGPD). A Microsoft garante que a informação não será movida, pois a informação pertence ao cliente. | |
+| **Redundância Interna** | É possível configurar a aplicação para estar em diferentes *racks* (gavetas/servidores) dentro do mesmo DC para proteção contra falhas locais (ex: energia). | |
+| **Recomendação de Estudo** | É crucial usar uma conta *trial* para fazer laboratórios e praticar, pois o ambiente de nuvem está em constante mudança. | |
+
+***
+
+### Entendendo Pares de Regiao e grupos de Recursos
+
+Este trecho explora a continuidade das regiões (Pares e Soberanas) e a organização dos recursos.
+
+| Conceito | Detalhes Principais | Citação |
+| :--- | :--- | :--- |
+| **Pares de Região** | Cada região possui uma **região par** que funciona como zona secundária para a região original. | |
+| **Disaster Recovery (DR)** | Utiliza a região par para manter o ambiente ativo em outro lugar, reduzindo o tempo de inatividade em caso de interrupção da região principal. O SLA de DR é variável. | |
+| **Replicação de Pares** | Pode ser automática para alguns serviços. As atualizações do Azure são distribuídas sequencialmente entre as regiões pares para minimizar o *downtime*. | |
+| **Exemplo Brasil** | A região Sul do Brasil replica para o Centro Sul dos Estados Unidos. A região Centro (RJ) ainda não é considerada região de DR para replicação total da principal (São Paulo). | |
+| **Regiões Soberanas** | Regiões exclusivas, não acessíveis para clientes normais (ex: China e EUA Governamental). | |
+| **Azure Governamental (EUA)** | Exclusiva para a área militar e agências governamentais/estaduais dos EUA. É fisicamente separada das implantações públicas. | |
+| **Azure China** | Separada fisicamente. É operada pela empresa **21 Vianet**. Os dados permanecem na China por critérios de conformidade. | |
+| **Recursos** | Itens que podem ser criados no Azure, como máquinas virtuais, armazenamento e redes. | |
+| **Grupo de Recursos (RG)** | Mecanismo de **organização** dos recursos, agregando-os em uma única unidade ("caixinha"). | |
+| **Conteúdo do RG** | Agrupa um recurso principal e todos os subcomponentes associados (IP, disco, placa de rede, etc.). | |
+| **Regras do RG** | 1. O recurso só pode estar em **um RG** por vez. 2. RGs não podem ser renomeados. 3. Recursos podem ser movidos para outro RG, inclusive entre assinaturas. 4. Recursos de um RG podem estar em **regiões diferentes**. | |
+| **Uso de RG** | Estratégia de organização pode ser por projeto (Projeto X) ou por tipo de item (apenas Máquinas Virtuais). É importante definir uma organização que faça sentido para a aplicação de regras e políticas. | |
+
+***
+
+### Assinatura da Azure e Grupos de Gerenciamento
+
+Esta fonte aborda a estrutura lógica acima dos Grupos de Recursos, focando em Faturamento e Hierarquia.
+
+| Conceito | Detalhes Principais | Citação |
+| :--- | :--- | :--- |
+| **Assinatura Azure** | Fornece **acesso autenticado e autorização** para usar o Azure. | |
+| **Hierarquia Conta vs. Assinatura** | Uma **Conta** (o dono) pode ter **várias assinaturas**. Uma **Assinatura** só pode responder a **uma única conta**. | |
+| **Cobrança (Biling)** | Cada assinatura gera uma fatura separada. A separação por assinaturas é uma estratégia usada para **organizar e refinar custos** por projeto ou centro de custo. | |
+| **Controle de Acesso** | Usar assinaturas diferentes ajuda a controlar o acesso, garantindo que usuários (ex: pessoal de teste) só tenham permissão onde for necessário. A segurança (permissões) é responsabilidade do cliente. | |
+| **Grupos de Gerenciamento (Management Groups)** | Entidade que atua acima das assinaturas, usada para aplicar as mesmas regras, padrões, permissões ou políticas a **múltiplas assinaturas** simultaneamente. | |
+| **Hierarquia Completa** | Grupos de Gerenciamento > Assinaturas > Grupos de Recursos > Recursos. | |
+| **Herança** | Assinaturas incluídas em um Grupo de Gerenciamento herdam as condições (regras, permissionamentos) definidas neste grupo. | |
+| **Propósito** | Essencial para organização, segurança e padronização, especialmente em ambientes grandes com muitas assinaturas. | |
+
+***
